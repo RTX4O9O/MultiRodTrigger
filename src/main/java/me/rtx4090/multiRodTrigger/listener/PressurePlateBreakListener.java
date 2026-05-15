@@ -1,6 +1,7 @@
 package me.rtx4090.multiRodTrigger.listener;
 
 import me.rtx4090.multiRodTrigger.item.FishRodData;
+import me.rtx4090.multiRodTrigger.item.Key;
 import me.rtx4090.multiRodTrigger.manager.FishRodDataManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -8,6 +9,7 @@ import org.bukkit.block.data.Powerable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class PressurePlateBreakListener implements Listener {
     @EventHandler
@@ -15,6 +17,7 @@ public class PressurePlateBreakListener implements Listener {
         if (!isActivablePressurePlate(event.getBlock().getType())) return; // not pressure plate
         Powerable pressurePlateData = (Powerable) event.getBlock().getBlockData();
         if (!pressurePlateData.isPowered()) return; // not powered
+        if (FishRodDataManager.getActiveByLocation().containsKey(event.getBlock().getLocation())) removeActive(FishRodDataManager.getActiveByLocation().get(event.getBlock().getLocation()));
         if (!FishRodDataManager.getPendingByLocation().containsKey(event.getBlock().getLocation())) return; // not recorded in pending
 
         // block broken while chunk still loading means it wont enter the "wireless" state = remove from pending
@@ -43,5 +46,14 @@ public class PressurePlateBreakListener implements Listener {
             default:
                 return false;
         }
+    }
+
+    private void removeActive(FishRodData fishRodData) {
+        Bukkit.getLogger().info("Pressure plate at " + fishRodData.pressurePlateLocation + " broke, hence removing active rod: " + fishRodData.uuid.toString());
+
+        fishRodData.pressurePlateLocation.getChunk().load();
+        Bukkit.getEntity(fishRodData.slimeUuid).remove();
+
+        FishRodDataManager.removeActive(fishRodData);
     }
 }
