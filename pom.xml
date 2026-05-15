@@ -6,7 +6,7 @@
 
     <groupId>me.rtx4090</groupId>
     <artifactId>MultiRodTrigger</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>Beta-1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>MultiRodTrigger</name>
