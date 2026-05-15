@@ -19,6 +19,7 @@ import java.util.List;
 public class ChunkUnloadListener implements Listener {
     @EventHandler
     public void onChunkUnload(ChunkUnloadEvent event) {
+        Bukkit.getLogger().info("Chunk unloading: " + event.getChunk().toString());
         if (!FishRodDataManager.getPendingByChunk().containsKey(event.getChunk())) return;
         List<FishRodData> toActivate = FishRodDataManager.getPendingByChunk().get(event.getChunk());
 
