@@ -20,7 +20,7 @@ import java.util.UUID;
 public class DebugCommand implements BasicCommand {
     @Override
     public void execute(CommandSourceStack commandSourceStack, String[] args) {
-        if (!commandSourceStack.getSender().hasPermission("multirodtrigger.op")) handleVersion();
+        if (!commandSourceStack.getSender().hasPermission("multirodtrigger.op")) handleVersion(commandSourceStack);
 
         switch (args[0]) {
             case "list":
