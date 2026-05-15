@@ -21,7 +21,7 @@ public final class MultiRodTrigger extends JavaPlugin {
         plugin = this;
         ActiveBobberLogger.setUp();
         ActiveBobberLogger.loadFromLog();
-        Bukkit.getLogger().info("[MultiRodTrigger] Loaded active bobbers from log.");
+        Bukkit.getLogger().info("Loaded active bobbers from log.");
 
         // Event registration
         Bukkit.getPluginManager().registerEvents(new BobberOnPressurePlateListener(), this);
@@ -30,6 +30,7 @@ public final class MultiRodTrigger extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ChunkUnloadListener(), this);
         Bukkit.getPluginManager().registerEvents(new SlimeDamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerUseRodListener(), this);
+        Bukkit.getPluginManager().registerEvents(new SlimeLoadListener(), this);
 
         // Command registration
         registerCommand("multirodtrigger", "Commands for MultiRodTrigger",
@@ -41,7 +42,7 @@ public final class MultiRodTrigger extends JavaPlugin {
         // Plugin shutdown logic
         ActiveBobberLogger.syncToLog();
         ActiveBobberLogger.saveLog();
-        Bukkit.getLogger().info("[MultiRodTrigger] Saved active bobbers to log.");
+        Bukkit.getLogger().info("Saved active bobbers to log.");
         Bukkit.getLogger().info("MultiRodTrigger has been disabled.");
 
     }

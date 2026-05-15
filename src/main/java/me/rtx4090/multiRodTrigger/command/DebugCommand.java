@@ -21,6 +21,10 @@ public class DebugCommand implements BasicCommand {
     @Override
     public void execute(CommandSourceStack commandSourceStack, String[] args) {
         if (!commandSourceStack.getSender().hasPermission("multirodtrigger.op")) handleVersion(commandSourceStack);
+        if (args.length < 1) {
+            handleVersion(commandSourceStack);
+            return;
+        }
 
         switch (args[0]) {
             case "list":
@@ -37,6 +41,10 @@ public class DebugCommand implements BasicCommand {
 
             case "remove":
                 handleRemove(commandSourceStack, args);
+                break;
+
+            case "cleanup":
+                handleCleanUp(commandSourceStack);
                 break;
 
             case "reload":
@@ -154,6 +162,32 @@ public class DebugCommand implements BasicCommand {
         }
 
     }
+
+    private void handleCleanup(CommandSourceStack commandSourceStack) {
+        int removedCount = 0;
+        for (org.bukkit.World world : Bukkit.getWorlds()) {
+            for (org.bukkit.entity.LivingEntity entity : world.getLivingEntities()) {
+                if (entity instanceof org.bukkit.entity.Slime slime) {
+                    if (slime.getPersistentDataContainer().has(me.rtx4090.multiRodTrigger.item.Key.BOUND_SLIME, org.bukkit.persistence.PersistentDataType.STRING)) {
+                        String uuidStr = slime.getPersistentDataContainer().get(me.rtx4090.multiRodTrigger.item.Key.BOUND_SLIME, org.bukkit.persistence.PersistentDataType.STRING);
+                        if (uuidStr == null) continue;
+
+                        try {
+                            UUID dataUuid = UUID.fromString(uuidStr);
+                            if (!FishRodDataManager.getActiveByUUID().containsKey(dataUuid)) {
+                                slime.remove();
+                                removedCount++;
+                            }
+                        } catch (IllegalArgumentException e) {
+                            slime.remove();
+                            removedCount++;
+                        }
+                    }
+                }
+            }
+        }
+        commandSourceStack.getSender().sendMessage("Cleaned up " + removedCount + " orphaned slime entities.");
+    } // ai coded
 
 
     private void handleReload(CommandSourceStack commandSourceStack, String[] args) {

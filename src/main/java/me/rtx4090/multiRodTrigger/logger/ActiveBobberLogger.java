@@ -56,7 +56,6 @@ public class ActiveBobberLogger {
         for (FishRodData data : FishRodDataManager.activeBobbers) {
             String path = "active-rods." + data.uuid.toString();
 
-            log.set(path + ".uuid", data.uuid.toString()); // save data.uuid
             // bobbers in active will all be null so no need to save
             log.set(path + ".rod", data.rod); // save data.rod using Bukkit's built-in serialization
             if (data.pressurePlateLocation != null) { // save data.pressurePlateLocation
@@ -77,7 +76,7 @@ public class ActiveBobberLogger {
 
         for (String key : log.getConfigurationSection("active-rods").getKeys(false)) {
             String path = "active-rods." + key;
-            UUID uuid = UUID.fromString(log.getString(path + ".uuid")); // retrieve uuid
+            UUID uuid = UUID.fromString(key); // retrieve uuid
             FishHook bobber = null; // bobbers in active will all be null so no need to load
             ItemStack rod = log.getItemStack(path + ".rod"); // retrieve rod
             Location pressurePlateLocation = null; // retrieve pressurePlateLocation
