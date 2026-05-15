@@ -20,10 +20,20 @@ public class PlayerUseRodListener implements Listener {
         if (event.getAction().isLeftClick()) return;
         if (event.getItem() == null) return;
         if (event.getItem().getType() != Material.FISHING_ROD) return;
+        Bukkit.getLogger().info("Player " + event.getPlayer().getName() + " interacted with a fishing rod.");
         if (!event.getItem().getPersistentDataContainer().has(Key.BOUND_ROD, PersistentDataType.STRING)) return;
 
         UUID dataUUID = UUID.fromString(event.getItem().getPersistentDataContainer().get(Key.BOUND_ROD, PersistentDataType.STRING));
         FishRodData fishRodData = FishRodDataManager.getActiveByUUID().get(dataUUID);
+        if (fishRodData == null) {
+            Bukkit.getLogger().warning("No active FishRodData found for UUID: " + dataUUID.toString() + " when player " + event.getPlayer().getName() + " used the rod.");
+
+            ItemMeta meta = event.getItem().getItemMeta();
+            meta.getPersistentDataContainer().remove(Key.BOUND_ROD);
+            event.getItem().setItemMeta(meta);
+
+            return;
+        }
 
         Bukkit.getLogger().info("Player " + event.getPlayer().getName() + " used rod: " + dataUUID.toString());
 
