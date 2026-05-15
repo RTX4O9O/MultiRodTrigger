@@ -44,7 +44,7 @@ public class DebugCommand implements BasicCommand {
                 break;
 
             case "cleanup":
-                handleCleanUp(commandSourceStack);
+                handleCleanup(commandSourceStack);
                 break;
 
             case "reload":
@@ -82,6 +82,7 @@ public class DebugCommand implements BasicCommand {
                     .append(Component.newline())
                     .append(Component.text("  Pressure Plate @ " + fishRodData.pressurePlateLocation.getWorld() + " (" + fishRodData.pressurePlateLocation.getBlockX() + ", " + fishRodData.pressurePlateLocation.getBlockY() + ", " + fishRodData.pressurePlateLocation.getBlockZ() + ")").decorate(TextDecoration.ITALIC));
         });
+        commandSourceStack.getSender().sendMessage(messages);
     }
 
     private void handleGet(CommandSourceStack commandSourceStack, String[] args) {
