@@ -69,20 +69,27 @@ public class DebugCommand implements BasicCommand {
 
     private void handleList(CommandSourceStack commandSourceStack) {
         commandSourceStack.getSender().sendMessage("There are currently " + FishRodDataManager.getActiveByUUID().size() + " active bobbers and " + FishRodDataManager.getPendingByUUID().size() + " pending bobbers.");
-        Component messages = Component.empty();
-        messages.append(Component.text("Active bobbers:").decorate(TextDecoration.BOLD)).append(Component.newline());
+
+        net.kyori.adventure.text.TextComponent.Builder builder = Component.text();
+        builder.append(Component.text("Active bobbers:").decorate(TextDecoration.BOLD)).append(Component.newline());
+
         FishRodDataManager.getActiveByUUID().forEach((uuid, fishRodData) -> {
-            messages.append(Component.text(uuid.toString()).decorate(TextDecoration.BOLD).clickEvent(ClickEvent.copyToClipboard(uuid.toString())))
+            builder.append(Component.text(uuid.toString()).decorate(TextDecoration.BOLD).clickEvent(ClickEvent.copyToClipboard(uuid.toString())))
                     .append(Component.newline())
-                    .append(Component.text("  Pressure Plate @ " + fishRodData.pressurePlateLocation.getWorld() + " (" + fishRodData.pressurePlateLocation.getBlockX() + ", " + fishRodData.pressurePlateLocation.getBlockY() + ", " + fishRodData.pressurePlateLocation.getBlockZ() + ")").decorate(TextDecoration.ITALIC));
+                    .append(Component.text("  Pressure Plate @ " + fishRodData.pressurePlateLocation.getWorld().getName() + " (" + fishRodData.pressurePlateLocation.getBlockX() + ", " + fishRodData.pressurePlateLocation.getBlockY() + ", " + fishRodData.pressurePlateLocation.getBlockZ() + ")").decorate(TextDecoration.ITALIC))
+                    .append(Component.newline());
         });
-        messages.append(Component.text("Pending bobbers:").decorate(TextDecoration.BOLD)).append(Component.newline());
+
+        builder.append(Component.text("Pending bobbers:").decorate(TextDecoration.BOLD)).append(Component.newline());
+
         FishRodDataManager.getPendingByUUID().forEach((uuid, fishRodData) -> {
-            messages.append(Component.text(uuid.toString()).decorate(TextDecoration.BOLD).clickEvent(ClickEvent.copyToClipboard(uuid.toString())))
+            builder.append(Component.text(uuid.toString()).decorate(TextDecoration.BOLD).clickEvent(ClickEvent.copyToClipboard(uuid.toString())))
                     .append(Component.newline())
-                    .append(Component.text("  Pressure Plate @ " + fishRodData.pressurePlateLocation.getWorld() + " (" + fishRodData.pressurePlateLocation.getBlockX() + ", " + fishRodData.pressurePlateLocation.getBlockY() + ", " + fishRodData.pressurePlateLocation.getBlockZ() + ")").decorate(TextDecoration.ITALIC));
+                    .append(Component.text("  Pressure Plate @ " + fishRodData.pressurePlateLocation.getWorld().getName() + " (" + fishRodData.pressurePlateLocation.getBlockX() + ", " + fishRodData.pressurePlateLocation.getBlockY() + ", " + fishRodData.pressurePlateLocation.getBlockZ() + ")").decorate(TextDecoration.ITALIC))
+                    .append(Component.newline());
         });
-        commandSourceStack.getSender().sendMessage(messages);
+
+        commandSourceStack.getSender().sendMessage(builder.build());
     }
 
     private void handleGet(CommandSourceStack commandSourceStack, String[] args) {
