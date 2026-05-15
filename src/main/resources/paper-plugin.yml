@@ -1,5 +1,5 @@
 name: MultiRodTrigger
-version: 'Beta-1.0.0-SNAPSHOT'
+version: 'Beta-1.0.1-SNAPSHOT'
 main: me.rtx4090.multiRodTrigger.MultiRodTrigger
 api-version: '1.21'
 authors: [ RTX4090 ]
