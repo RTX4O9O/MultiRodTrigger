@@ -2,6 +2,7 @@ package me.rtx4090.multiRodTrigger.manager;
 
 import me.rtx4090.multiRodTrigger.MultiRodTrigger;
 import me.rtx4090.multiRodTrigger.item.FishRodData;
+import me.rtx4090.multiRodTrigger.logger.ActiveBobberLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -71,6 +72,8 @@ public class FishRodDataManager {
         activeByUUID.put(data.uuid, data);
         activeByLocation.put(data.pressurePlateLocation, data);
         Bukkit.getLogger().info("Added active bobber: " + data.uuid.toString() + " at " + data.pressurePlateLocation.toString());
+        ActiveBobberLogger.syncToLog();
+        ActiveBobberLogger.saveLog();
     }
 
     public static void removeActive(FishRodData data) {
@@ -78,6 +81,8 @@ public class FishRodDataManager {
         activeByUUID.remove(data.uuid);
         activeByLocation.remove(data.pressurePlateLocation);
         Bukkit.getLogger().info("Removed active bobber: " + data.uuid.toString() + " at " + data.pressurePlateLocation.toString());
+        ActiveBobberLogger.syncToLog();
+        ActiveBobberLogger.saveLog();
     }
 
 }
