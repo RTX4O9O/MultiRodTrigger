@@ -1,11 +1,14 @@
 package me.rtx4090.multiRodTrigger;
 
+import me.rtx4090.multiRodTrigger.command.DebugCommand;
 import me.rtx4090.multiRodTrigger.item.FishRodData;
 import me.rtx4090.multiRodTrigger.listener.*;
 import me.rtx4090.multiRodTrigger.logger.ActiveBobberLogger;
 import org.bukkit.Bukkit;
 
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.List;
 
 public final class MultiRodTrigger extends JavaPlugin {
     private static MultiRodTrigger plugin;
@@ -28,6 +31,9 @@ public final class MultiRodTrigger extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new SlimeDamageListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerUseRodListener(), this);
 
+        // Command registration
+        registerCommand("multirodtrigger", "Commands for MultiRodTrigger",
+                List.of("mrt"), new DebugCommand());
     }
 
     @Override
