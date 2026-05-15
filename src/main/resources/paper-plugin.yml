@@ -3,3 +3,8 @@ version: '1.0.0-SNAPSHOT'
 main: me.rtx4090.multiRodTrigger.MultiRodTrigger
 api-version: '1.21'
 authors: [ RTX4090 ]
+description:
+permissions:
+    multirodtrigger.op:
+        description: Allows the player to use debug command
+        default: op
